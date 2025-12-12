@@ -195,13 +195,13 @@
             background-color: rgba(255, 255, 255, 0.1);
             transform: scale(1.03);
         }
-        /* 恢复图片图标的样式 */
-        .temp-container img {
-            width: 50px;
-            height: 50px;
+        /* 天气图标字体样式调整 */
+        .temp-container .qi-icon {
+            font-size: 50px;
             transition: all 0.3s ease;
+            color: #fff;
         }
-        .temp-container:hover img {
+        .temp-container:hover .qi-icon {
             transform: rotate(5deg);
         }
         .temp-value {
@@ -272,13 +272,13 @@
             z-index: 10;
             border-radius: 8px;
         }
-        /* 恢复预报图片图标的样式 */
-        .forecast-day-container img {
-            width: 40px;
-            height: 40px;
+        /* 预报图标字体样式 */
+        .forecast-day-container .qi-icon {
+            font-size: 40px;
             transition: all 0.3s ease;
+            color: #fff;
         }
-        .forecast-day-container:hover img {
+        .forecast-day-container:hover .qi-icon {
             transform: scale(1.2);
         }
         .forecast-date {
@@ -403,7 +403,7 @@
             text-decoration: underline;
         }
     </style>
-    <!-- 保留你要求引入的和风天气图标CSS -->
+    <!-- 替换为和风天气图标字体库 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/qweather-icons@1.3.0/font/qweather-icons.css">
     <!-- 保留Font Awesome用于LOGO图标 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -447,8 +447,8 @@
                     <span id="updateTime">2025-01-01 12:00</span>
                 </div>
                 <div class="temp-container">
-                    <!-- 改回img标签，恢复彩色图标 -->
-                    <img id="currentIcon" src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="天气图标">
+                    <!-- 替换img为图标字体 -->
+                    <i id="currentIcon" class="qi-100 qi-icon" aria-label="天气图标"></i>
                     <span class="temp-value" id="currentTemp">25℃</span>
                 </div>
                 <div class="details-container">
@@ -476,8 +476,8 @@
                 <div class="forecast-day-container" id="forecast1">
                     <span>今天</span>
                     <span class="forecast-date">12/12</span>
-                    <!-- 改回img标签，恢复彩色图标 -->
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <!-- 替换img为图标字体 -->
+                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
                     <span class="forecast-temp">25℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">微风</span>
@@ -485,7 +485,7 @@
                 <div class="forecast-day-container" id="forecast2">
                     <span>明天</span>
                     <span class="forecast-date">12/13</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
                     <span class="forecast-temp">24℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">软风</span>
@@ -493,7 +493,7 @@
                 <div class="forecast-day-container" id="forecast3">
                     <span>后天</span>
                     <span class="forecast-date">12/14</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
                     <span class="forecast-temp">26℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">轻风</span>
@@ -501,7 +501,7 @@
                 <div class="forecast-day-container" id="forecast4">
                     <span>周五</span>
                     <span class="forecast-date">12/15</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
                     <span class="forecast-temp">23℃</span>
                     <span class="forecast-text">阴</span>
                     <span class="forecast-wind-scale">和风</span>
@@ -509,7 +509,7 @@
                 <div class="forecast-day-container" id="forecast5">
                     <span>周六</span>
                     <span class="forecast-date">12/16</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
                     <span class="forecast-temp">22℃</span>
                     <span class="forecast-text">小雨</span>
                     <span class="forecast-wind-scale">轻劲风</span>
@@ -517,7 +517,7 @@
                 <div class="forecast-day-container" id="forecast6">
                     <span>周日</span>
                     <span class="forecast-date">12/17</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
                     <span class="forecast-temp">24℃</span>
                     <span class="forecast-text">多云</span>
                     <span class="forecast-wind-scale">强风</span>
@@ -525,7 +525,7 @@
                 <div class="forecast-day-container" id="forecast7">
                     <span>周一</span>
                     <span class="forecast-date">12/18</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
                     <span class="forecast-temp">25℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">疾风</span>
@@ -562,8 +562,6 @@
         const WEATHER_BASE_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/now";
         const GEO_BASE_URL = "https://p82mtefeqv.re.qweatherapi.com/geo/v2/city/lookup";
         const FORECAST_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/7d";
-        // 恢复彩色图标图片的基础链接
-        const ICON_BASE_URL = "https://a.hecdn.net/img/common/icon/202106d/";
 
         // 风力等级对应文字
         const windScaleMap = [
@@ -737,10 +735,10 @@
                 updateTime.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             }
 
-            // 恢复图片图标的链接拼接逻辑
+            // 更新温度和图标（替换为字体类名）
             currentTemp.textContent = `${nowData.temp}℃`;
-            currentIcon.src = `${ICON_BASE_URL}${nowData.icon}.png`;
-            currentIcon.alt = nowData.text;
+            currentIcon.className = `qi-${nowData.icon} qi-icon`;
+            currentIcon.ariaLabel = nowData.text;
 
             // 更新详细信息
             precip.textContent = `${nowData.precip || 0}mm`;
@@ -765,9 +763,9 @@
                 const dateParts = dayData.fxDate.split('-');
                 forecastEl.children[1].textContent = `${dateParts[1]}/${dateParts[2]}`;
                 
-                // 恢复图片图标的链接拼接逻辑
-                forecastEl.children[2].src = `${ICON_BASE_URL}${dayData.iconDay}.png`;
-                forecastEl.children[2].alt = dayData.textDay;
+                // 更新预报图标（替换为字体类名）
+                forecastEl.children[2].className = `qi-${dayData.iconDay} qi-icon`;
+                forecastEl.children[2].ariaLabel = dayData.textDay;
                 
                 // 温度区间
                 forecastEl.children[3].textContent = `${dayData.tempMin}~${dayData.tempMax}℃`;
