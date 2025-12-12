@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天气7.4</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", Arial, sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding-bottom: 40px; /* 为底部留言框预留空间 */
+        }
+
+        /* 容器宽度统一 */
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 头部区域（LOGO + 搜索框） */
+        .header {
+            background-color: #fff;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .header-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px; /* 加高头部适配大LOGO */
+        }
+        /* LOGO容器 - 加大尺寸 + 悬停效果 */
+        .logo-container {
+            width: 350px; /* 加大LOGO容器宽度 */
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 15px;
+            font-size: 28px; /* 加大LOGO文字 */
+            font-weight: bold;
+            color: #00529b;
+            cursor: pointer;
+            transition: all 0.3s ease; /* 过渡动画 */
+        }
+        .logo-container:hover {
+            color: #0066cc;
+            transform: scale(1.02); /* 悬停轻微放大 */
+        }
+        .logo-container i {
+            font-size: 36px; /* 加大LOGO图标 */
+        }
+
+        /* 搜索框容器 - 悬停效果 */
+        .search-container {
+            width: 350px;
+            height: 45px; /* 加高搜索框 */
+            display: flex;
+            align-items: center;
+            padding: 0 5px;
+            transition: all 0.3s ease;
+        }
+        .search-container:hover {
+            box-shadow: 0 0 8px rgba(0, 82, 155, 0.2); /* 悬停阴影 */
+        }
+        #cityInput {
+            flex: 1;
+            height: 35px; /* 加高输入框 */
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            padding: 0 15px;
+            outline: none;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+        #cityInput:focus {
+            border-color: #00529b; /* 聚焦边框变色 */
+        }
+        #searchBtn {
+            height: 35px;
+            width: 80px;
+            background-color: #00529b;
+            color: #fff;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        #searchBtn:hover {
+            background-color: #0066cc;
+            box-shadow: 0 2px 6px rgba(0, 82, 155, 0.3);
+        }
+
+        /* 导航栏区域 */
+        .nav-bar {
+            background-color: #00529b;
+            height: 45px; /* 加高导航栏 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .nav-wrap {
+            display: flex;
+            height: 100%;
+        }
+        /* 导航项 - 悬停效果 */
+        .nav-item {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: #fff;
+            transition: width 0.3s ease;
+        }
+        .nav-item:hover {
+            background-color: #0066cc;
+        }
+        .nav-item:hover::after {
+            width: 100%; /* 底部横线展开 */
+        }
+
+        /* 天气主内容区域 - 悬停效果 */
+        .weather-main {
+            margin-top: 15px;
+            background-color: #0b6bb8;
+            height: 240px;
+            display: flex;
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .weather-main:hover {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px); /* 轻微上移 */
+        }
+
+        /* 当前天气容器 */
+        .current-weather-container {
+            width: 30%;
+            height: 100%;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .current-weather-container:hover {
+            background-color: #0a64aa; /* 悬停深色 */
+        }
+        /* 当前天气内部分区 */
+        .city-time-container {
+            height: 40px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .city-time-container:hover {
+            background-color: rgba(255, 255, 255, 0.1); /* 半透明背景 */
+        }
+        .temp-container {
+            height: 80px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .temp-container:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.03); /* 轻微放大 */
+        }
+        .temp-container img {
+            width: 50px;
+            height: 50px;
+            transition: all 0.3s ease;
+        }
+        .temp-container:hover img {
+            transform: rotate(5deg); /* 图标轻微旋转 */
+        }
+        .temp-value {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .details-container {
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+        }
+        /* 详情项 - 悬停效果 */
+        .detail-item {
+            width: 22%;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            gap: 6px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .detail-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px); /* 上移 */
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        .detail-item span:first-child {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .detail-item span:last-child {
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+        /* 未来几天预报容器（共7个） */
+        .forecast-container {
+            width: 70%;
+            height: 100%;
+            display: flex;
+            padding: 15px 0; /* 上下增加内边距，分散内容 */
+        }
+        /* 每日预报项 - 调整间距，更宽松 */
+        .forecast-day-container {
+            flex: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around; /* 用space-around分散内容 */
+            padding: 15px 5px; /* 增加内边距 */
+            gap: 8px; /* 加大内容间距 */
+            font-size: 13px; /* 适度放大文字 */
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .forecast-day-container:last-child {
+            border-right: none; /* 最后一项无右边框 */
+        }
+        .forecast-day-container:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05); /* 放大 */
+            z-index: 10; /* 悬浮层级 */
+            border-radius: 8px;
+        }
+        .forecast-day-container img {
+            width: 40px; /* 加大图标尺寸 */
+            height: 40px;
+            transition: all 0.3s ease;
+        }
+        .forecast-day-container:hover img {
+            transform: scale(1.2); /* 图标放大 */
+        }
+        .forecast-date {
+            color: #e0e0e0;
+            font-size: 12px; /* 放大日期文字 */
+        }
+        .forecast-temp {
+            font-size: 16px; /* 放大温度文字 */
+            font-weight: 500;
+        }
+        .forecast-text {
+            margin: 2px 0;
+            font-size: 13px; /* 放大天气状态文字 */
+        }
+        .forecast-wind-scale {
+            font-size: 12px; /* 放大风力文字 */
+            color: #e0e0e0;
+        }
+
+        /* 底部留言框样式 */
+        .message-section {
+            width: 1200px;
+            margin: 30px auto 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        .message-title {
+            font-size: 18px;
+            color: #00529b;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 10px;
+        }
+        .message-input-wrap {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        #messageInput {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            resize: none;
+            height: 80px;
+            transition: border-color 0.3s ease;
+        }
+        #messageInput:focus {
+            border-color: #00529b;
+            outline: none;
+        }
+        #submitMessage {
+            padding: 0 20px;
+            background-color: #00529b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        #submitMessage:hover {
+            background-color: #0066cc;
+            box-shadow: 0 2px 6px rgba(0, 82, 155, 0.3);
+        }
+        .message-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border-top: 1px solid #f5f5f5;
+            padding-top: 15px;
+        }
+        .message-item {
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .message-item .message-time {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+        .message-item .message-content {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+        }
+        .empty-message {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            padding: 20px 0;
+        }
+
+        /* 底部信息模块样式 - 新增 */
+        .footer-info {
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #e5e5e5;
+            padding: 15px 0;
+            margin-top: 30px;
+        }
+        .footer-wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer-item {
+            margin: 0 10px;
+        }
+        .footer-item a {
+            color: #00529b;
+            text-decoration: none;
+        }
+        .footer-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <!-- 引入天气图标字体 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 头部：LOGO + 搜索框 -->
+    <div class="header">
+        <div class="container header-wrap">
+            <div class="logo-container">
+                <i class="fas fa-cloud-sun-rain"></i>
+                <span>天气查询</span>
+            </div>
+            <div class="search-container">
+                <input type="text" id="cityInput" placeholder="请输入城市名称">
+                <button id="searchBtn">查询</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导航栏：为每个导航项添加id标识 -->
+    <div class="nav-bar">
+        <div class="container nav-wrap">
+            <div class="nav-item" id="nav-home">首页</div>
+            <div class="nav-item" id="nav-weather-live">天气实况</div>
+            <div class="nav-item" id="nav-weather-bulletin">气象公报</div>
+            <div class="nav-item" id="nav-weather-alarm">气象预警</div>
+            <div class="nav-item" id="nav-city-forecast">城市预报</div>
+            <div class="nav-item" id="nav-weather-news">天气资讯</div>
+            <div class="nav-item" id="nav-weather-topic">气象专题</div>
+            <div class="nav-item" id="nav-weather-science">气象科普</div>
+        </div>
+    </div>
+
+    <!-- 天气主内容：当前天气 + 未来预报 -->
+    <div class="container">
+        <div class="weather-main">
+            <!-- 当前天气 -->
+            <div class="current-weather-container">
+                <div class="city-time-container">
+                    <span id="cityName">北京市</span>
+                    <span id="updateTime">2025-01-01 12:00</span>
+                </div>
+                <div class="temp-container">
+                    <img id="currentIcon" src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="天气图标">
+                    <span class="temp-value" id="currentTemp">25℃</span>
+                </div>
+                <div class="details-container">
+                    <!-- 4个核心详情项：标题加粗，数据常规 -->
+                    <div class="detail-item">
+                        <span>降水</span>
+                        <span id="precip">0mm</span>
+                    </div>
+                    <div class="detail-item">
+                        <span id="windDirTitle">西北风</span> <!-- 标题直接显示风向 -->
+                        <span id="windScaleText">微风</span>     <!-- 内容显示风力 -->
+                    </div>
+                    <div class="detail-item">
+                        <span>湿度</span>
+                        <span id="humidity">50%</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>气压</span>
+                        <span id="pressure">1010hPa</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 未来7天预报（调整后更宽松） -->
+            <div class="forecast-container">
+                <!-- 每个预报项结构：相对日期 → 具体日期 → 图标 → 温度区间 → 天气状态 → 风力 -->
+                <div class="forecast-day-container" id="forecast1">
+                    <span>今天</span>
+                    <span class="forecast-date">12/12</span>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <span class="forecast-temp">25℃</span>
+                    <span class="forecast-text">晴</span>
+                    <span class="forecast-wind-scale">微风</span>
+                </div>
+                <div class="forecast-day-container" id="forecast2">
+                    <span>明天</span>
+                    <span class="forecast-date">12/13</span>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <span class="forecast-temp">24℃</span>
+                    <span class="forecast-text">晴</span>
+                    <span class="forecast-wind-scale">软风</span>
+                </div>
+                <div class="forecast-day-container" id="forecast3">
+                    <span>后天</span>
+                    <span class="forecast-date">12/14</span>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <span class="forecast-temp">26℃</span>
+                    <span class="forecast-text">晴</span>
+                    <span class="forecast-wind-scale">轻风</span>
+                </div>
+                <div class="forecast-day-container" id="forecast4">
+                    <span>周五</span>
+                    <span class="forecast-date">12/15</span>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <span class="forecast-temp">23℃</span>
+                    <span class="forecast-text">阴</span>
+                    <span class="forecast-wind-scale">和风</span>
+                </div>
+                <div class="forecast-day-container" id="forecast5">
+                    <span>周六</span>
+                    <span class="forecast-date">12/16</span>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <span class="forecast-temp">22℃</span>
+                    <span class="forecast-text">小雨</span>
+                    <span class="forecast-wind-scale">轻劲风</span>
+                </div>
+                <div class="forecast-day-container" id="forecast6">
+                    <span>周日</span>
+                    <span class="forecast-date">12/17</span>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <span class="forecast-temp">24℃</span>
+                    <span class="forecast-text">多云</span>
+                    <span class="forecast-wind-scale">强风</span>
+                </div>
+                <div class="forecast-day-container" id="forecast7">
+                    <span>周一</span>
+                    <span class="forecast-date">12/18</span>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <span class="forecast-temp">25℃</span>
+                    <span class="forecast-text">晴</span>
+                    <span class="forecast-wind-scale">疾风</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部留言框区域 -->
+    <div class="message-section">
+        <div class="message-title">留言反馈</div>
+        <div class="message-input-wrap">
+            <textarea id="messageInput" placeholder="请输入您的留言内容..."></textarea>
+            <button id="submitMessage">提交</button>
+        </div>
+        <div class="message-list" id="messageList">
+            <div class="empty-message">暂无留言，快来发表第一条留言吧！</div>
+        </div>
+    </div>
+
+    <!-- 底部信息模块 - 新增 -->
+    <footer class="footer-info">
+        <div class="container footer-wrap">
+            <div class="footer-item">API调用次数：<span id="apiCallCount">0</span> 次</div>
+            <div class="footer-item">数据来源：<a href="https://www.qweather.com/" target="_blank">和风天气</a></div>
+            <div class="footer-item">作者：<span>珠科.软工.20240132.杨嘉</span></div>
+        </div>
+    </footer>
+
+    <script>
+        // 天气API配置
+        const WEATHER_API_KEY = "a5eb5ea758be41e781c4e9abb4f87f9b";
+        const GEO_API_KEY = "5638a2b16b52469f9bdbbacab0af5c69";
+        const WEATHER_BASE_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/now";
+        const GEO_BASE_URL = "https://p82mtefeqv.re.qweatherapi.com/geo/v2/city/lookup";
+        const FORECAST_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/7d";
+        const ICON_BASE_URL = "https://a.hecdn.net/img/common/icon/202106d/";
+
+        // 风力等级对应文字（严格按用户要求）
+        const windScaleMap = [
+            "无风", "软风", "轻风", "微风", "和风", 
+            "轻劲风", "强风", "疾风", "大风", "烈风", 
+            "狂风", "暴风", "飓风"
+        ];
+
+        // DOM元素
+        const cityInput = document.getElementById('cityInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const cityName = document.getElementById('cityName');
+        const updateTime = document.getElementById('updateTime');
+        const currentIcon = document.getElementById('currentIcon');
+        const currentTemp = document.getElementById('currentTemp');
+        const precip = document.getElementById('precip');
+        const windDirTitle = document.getElementById('windDirTitle'); // 风向作为标题
+        const windScaleText = document.getElementById('windScaleText');
+        const humidity = document.getElementById('humidity');
+        const pressure = document.getElementById('pressure');
+        // 新增API调用次数DOM元素
+        const apiCallCountEl = document.getElementById('apiCallCount');
+        // 定义API调用次数变量
+        let apiCallCount = 0;
+
+        // 导航栏点击事件绑定
+        document.addEventListener('DOMContentLoaded', function() {
+            // 首页 - 刷新页面
+            document.getElementById('nav-home').addEventListener('click', function() {
+                window.location.reload();
+            });
+
+            // 天气实况 - 跳转指定链接
+            document.getElementById('nav-weather-live').addEventListener('click', function() {
+                window.open('https://weather.cma.cn/web/channel-2b0863600e144b13807e606f928b1266.html', '_blank');
+            });
+
+            // 气象公报 - 跳转指定链接
+            document.getElementById('nav-weather-bulletin').addEventListener('click', function() {
+                window.open('https://weather.cma.cn/web/channel-380.html', '_blank');
+            });
+
+            // 气象预警 - 跳转指定链接
+            document.getElementById('nav-weather-alarm').addEventListener('click', function() {
+                window.open('https://weather.cma.cn/web/alarm/map.html', '_blank');
+            });
+
+            // 城市预报 - 跳转指定链接
+            document.getElementById('nav-city-forecast').addEventListener('click', function() {
+                window.open('https://weather.cma.cn/web/weather/map.html', '_blank');
+            });
+
+            // 天气资讯 - 跳转指定链接
+            document.getElementById('nav-weather-news').addEventListener('click', function() {
+                window.open('https://www.cma.gov.cn', '_blank');
+            });
+
+            // 气象专题 - 跳转指定链接
+            document.getElementById('nav-weather-topic').addEventListener('click', function() {
+                window.open('https://www.cma.gov.cn/2011xwzx/2011xztbd/', '_blank');
+            });
+
+            // 气象科普 - 跳转指定链接（补充http协议，避免跳转错误）
+            document.getElementById('nav-weather-science').addEventListener('click', function() {
+                window.open('https://www.qxkp.net', '_blank');
+            });
+
+            // 留言框提交事件
+            const messageInput = document.getElementById('messageInput');
+            const submitMessage = document.getElementById('submitMessage');
+            const messageList = document.getElementById('messageList');
+
+            submitMessage.addEventListener('click', function() {
+                const content = messageInput.value.trim();
+                if (!content) {
+                    alert('请输入留言内容！');
+                    return;
+                }
+
+                // 创建留言项
+                const now = new Date();
+                const timeStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+                
+                const messageItem = document.createElement('div');
+                messageItem.className = 'message-item';
+                messageItem.innerHTML = `
+                    <div class="message-time">${timeStr}</div>
+                    <div class="message-content">${content}</div>
+                `;
+
+                // 清空空提示，添加新留言
+                if (messageList.querySelector('.empty-message')) {
+                    messageList.innerHTML = '';
+                }
+                messageList.appendChild(messageItem);
+
+                // 清空输入框，滚动到最新留言
+                messageInput.value = '';
+                messageList.scrollTop = messageList.scrollHeight;
+            });
+
+            // 按回车提交留言（按住ctrl+回车）
+            messageInput.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    submitMessage.click();
+                }
+            });
+        });
+
+        // 页面加载默认查询北京天气
+        window.onload = () => {
+            getWeatherByCity('北京市');
+        }
+
+        // 搜索按钮点击事件
+        searchBtn.addEventListener('click', () => {
+            const city = cityInput.value.trim();
+            if (city) {
+                getWeatherByCity(city);
+            } else {
+                alert('请输入城市名称');
+            }
+        });
+
+        // 按回车键搜索
+        cityInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+
+        // 根据城市名获取天气
+        async function getWeatherByCity(city) {
+            try {
+                // 新增：每次调用API计数+1并更新显示
+                apiCallCount++;
+                apiCallCountEl.textContent = apiCallCount;
+
+                // 1. 地理编码：获取城市的locationId
+                const geoRes = await fetch(`${GEO_BASE_URL}?key=${GEO_API_KEY}&location=${city}`);
+                const geoData = await geoRes.json();
+                if (geoData.code !== '200' || !geoData.location || geoData.location.length === 0) {
+                    alert('未找到该城市，请检查名称');
+                    return;
+                }
+                const locationId = geoData.location[0].id;
+                cityName.textContent = geoData.location[0].name;
+
+                // 2. 获取实时天气
+                const weatherRes = await fetch(`${WEATHER_BASE_URL}?key=${WEATHER_API_KEY}&location=${locationId}`);
+                const weatherData = await weatherRes.json();
+                if (weatherData.code !== '200') {
+                    alert('获取实时天气失败');
+                    return;
+                }
+                updateCurrentWeather(weatherData.now);
+
+                // 3. 获取未来7天预报
+                const forecastRes = await fetch(`${FORECAST_URL}?key=${WEATHER_API_KEY}&location=${locationId}`);
+                const forecastData = await forecastRes.json();
+                if (forecastData.code !== '200') {
+                    alert('获取预报数据失败');
+                    return;
+                }
+                updateForecast(forecastData.daily);
+
+            } catch (error) {
+                console.error('请求天气数据失败：', error);
+                alert('网络错误，请稍后重试');
+            }
+        }
+
+        // 更新实时天气数据（彻底修复更新时间显示问题）
+        function updateCurrentWeather(nowData) {
+            // 彻底修复更新时间：手动解析ISO时间格式，避免浏览器兼容问题
+            const updateTimeStr = nowData.updateTime;
+            if (updateTimeStr && updateTimeStr.includes('T')) {
+                // 处理API返回的ISO格式：2025-12-12T12:34+08:00
+                const [datePart, timePart] = updateTimeStr.split('T');
+                const [timeMain] = timePart.split('+');
+                const [hour, minute] = timeMain.split(':');
+                updateTime.textContent = `${datePart} ${hour}:${minute}`;
+            } else if (updateTimeStr) {
+                // 其他格式直接显示
+                updateTime.textContent = updateTimeStr;
+            } else {
+                // 兜底：显示当前时间
+                const now = new Date();
+                updateTime.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            }
+
+            // 温度和图标
+            currentTemp.textContent = `${nowData.temp}℃`;
+            currentIcon.src = `${ICON_BASE_URL}${nowData.icon}.png`;
+            currentIcon.alt = nowData.text;
+
+            // 详细信息：标题加粗，数据常规
+            precip.textContent = `${nowData.precip || 0}mm`;
+            windDirTitle.textContent = nowData.windDir || '未知风向'; // 标题显示风向
+            // 风力等级转文字（取最大值，实时天气只有一个值）
+            const windScaleNum = Math.min(parseInt(nowData.windScale || 0), 12); // 限制最大12级
+            windScaleText.textContent = windScaleMap[windScaleNum] || '未知';
+            humidity.textContent = `${nowData.humidity || 0}%`;
+            pressure.textContent = `${nowData.pressure || 0}hPa`;
+        }
+
+        // 更新未来7天预报（仅显示风力，移除风向）
+        function updateForecast(dailyData) {
+            const dayNames = ['今天', '明天', '后天', '周五', '周六', '周日', '周一'];
+            for (let i = 0; i < 7; i++) {
+                const dayData = dailyData[i];
+                const forecastEl = document.getElementById(`forecast${i+1}`);
+                
+                // 1. 相对日期（今天/明天等）
+                forecastEl.children[0].textContent = dayNames[i];
+                
+                // 2. 具体日期（如12/12）
+                const dateParts = dayData.fxDate.split('-');
+                forecastEl.children[1].textContent = `${dateParts[1]}/${dateParts[2]}`;
+                
+                // 3. 天气图标
+                forecastEl.children[2].src = `${ICON_BASE_URL}${dayData.iconDay}.png`;
+                forecastEl.children[2].alt = dayData.textDay;
+                
+                // 4. 温度区间
+                forecastEl.children[3].textContent = `${dayData.tempMin}~${dayData.tempMax}℃`;
+                
+                // 5. 天气状态（白天+夜间，如“阴转晴”）
+                const weatherText = dayData.textDay === dayData.textNight 
+                    ? dayData.textDay 
+                    : `${dayData.textDay}转${dayData.textNight}`;
+                forecastEl.children[4].textContent = weatherText;
+                
+                // 6. 风力（取当日最大值，转文字，仅显示风力）
+                const dayWindScale = Math.min(parseInt(dayData.windScaleDay || 0), 12);
+                const nightWindScale = Math.min(parseInt(dayData.windScaleNight || 0), 12);
+                const maxWindScale = Math.max(dayWindScale, nightWindScale); // 取当日最大值
+                forecastEl.children[5].textContent = windScaleMap[maxWindScale] || '未知';
+            }
+        }
+    </script>
+</body>
+</html>
