@@ -289,14 +289,22 @@
             background-color: rgba(255, 255, 255, 0.1);
             transform: scale(1.03);
         }
-        /* 恢复图片图标的样式 */
-        .temp-container img {
-            width: 50px;
-            height: 50px;
+        /* 修改：Font Awesome 天气图标样式 */
+        .weather-icon {
+            font-size: 50px;
             transition: all 0.3s ease;
+            color: #fff;
         }
-        .temp-container:hover img {
+        .temp-container:hover .weather-icon {
             transform: rotate(5deg);
+        }
+        .forecast-icon {
+            font-size: 40px;
+            transition: all 0.3s ease;
+            color: #fff;
+        }
+        .forecast-day-container:hover .forecast-icon {
+            transform: scale(1.2);
         }
         .temp-value {
             font-size: 30px;
@@ -376,15 +384,6 @@
         body.dark-mode .forecast-day-container:hover {
             background-color: rgba(255, 255, 255, 0.05);
         }
-        /* 恢复预报图片图标的样式 */
-        .forecast-day-container img {
-            width: 40px;
-            height: 40px;
-            transition: all 0.3s ease;
-        }
-        .forecast-day-container:hover img {
-            transform: scale(1.2);
-        }
         .forecast-date {
             color: #e0e0e0;
             font-size: 12px;
@@ -402,7 +401,7 @@
             color: #e0e0e0;
         }
 
-        /* 新增：天气提示模块 */
+        /* 天气提示模块 */
         .weather-tips-section {
             width: 1200px;
             margin: 20px auto 0;
@@ -637,10 +636,9 @@
             text-decoration: underline;
         }
     </style>
-    <!-- 保留你要求引入的和风天气图标CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/qweather-icons@1.3.0/font/qweather-icons.css">
-    <!-- 保留Font Awesome用于LOGO图标 -->
+    <!-- 保留 Font Awesome 图标库 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 移除和风天气图标CSS -->
     <!-- 引入ECharts用于绘制折线图 -->
     <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
 </head>
@@ -690,8 +688,8 @@
                     <span id="updateTime">2025-01-01 12:00</span>
                 </div>
                 <div class="temp-container">
-                    <!-- 改回img标签，恢复彩色图标 -->
-                    <img id="currentIcon" src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="天气图标">
+                    <!-- 修改：替换为 Font Awesome 图标 -->
+                    <i id="currentIcon" class="weather-icon fas fa-sun"></i>
                     <span class="temp-value" id="currentTemp">25℃</span>
                 </div>
                 <div class="details-container">
@@ -719,8 +717,8 @@
                 <div class="forecast-day-container" id="forecast1">
                     <span>今天</span>
                     <span class="forecast-date">12/12</span>
-                    <!-- 改回img标签，恢复彩色图标 -->
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <!-- 修改：替换为 Font Awesome 图标 -->
+                    <i class="forecast-icon fas fa-sun"></i>
                     <span class="forecast-temp">25℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">微风</span>
@@ -728,7 +726,7 @@
                 <div class="forecast-day-container" id="forecast2">
                     <span>明天</span>
                     <span class="forecast-date">12/13</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="forecast-icon fas fa-sun"></i>
                     <span class="forecast-temp">24℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">软风</span>
@@ -736,7 +734,7 @@
                 <div class="forecast-day-container" id="forecast3">
                     <span>后天</span>
                     <span class="forecast-date">12/14</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="forecast-icon fas fa-sun"></i>
                     <span class="forecast-temp">26℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">轻风</span>
@@ -744,7 +742,7 @@
                 <div class="forecast-day-container" id="forecast4">
                     <span>周五</span>
                     <span class="forecast-date">12/15</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="forecast-icon fas fa-cloud"></i>
                     <span class="forecast-temp">23℃</span>
                     <span class="forecast-text">阴</span>
                     <span class="forecast-wind-scale">和风</span>
@@ -752,7 +750,7 @@
                 <div class="forecast-day-container" id="forecast5">
                     <span>周六</span>
                     <span class="forecast-date">12/16</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="forecast-icon fas fa-cloud-showers-heavy"></i>
                     <span class="forecast-temp">22℃</span>
                     <span class="forecast-text">小雨</span>
                     <span class="forecast-wind-scale">轻劲风</span>
@@ -760,7 +758,7 @@
                 <div class="forecast-day-container" id="forecast6">
                     <span>周日</span>
                     <span class="forecast-date">12/17</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="forecast-icon fas fa-cloud-sun"></i>
                     <span class="forecast-temp">24℃</span>
                     <span class="forecast-text">多云</span>
                     <span class="forecast-wind-scale">强风</span>
@@ -768,7 +766,7 @@
                 <div class="forecast-day-container" id="forecast7">
                     <span>周一</span>
                     <span class="forecast-date">12/18</span>
-                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
+                    <i class="forecast-icon fas fa-sun"></i>
                     <span class="forecast-temp">25℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">疾风</span>
@@ -777,7 +775,7 @@
         </div>
     </div>
 
-    <!-- 新增：天气提示模块 -->
+    <!-- 天气提示模块 -->
     <div class="weather-tips-section">
         <div class="tips-title">生活提示</div>
         <div class="tips-list" id="tipsList">
@@ -820,8 +818,65 @@
         const GEO_BASE_URL = "https://p82mtefeqv.re.qweatherapi.com/geo/v2/city/lookup";
         const FORECAST_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/7d";
         const HOURLY_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/24h"; // 24小时预报接口
-        // 恢复彩色图标图片的基础链接
-        const ICON_BASE_URL = "https://a.hecdn.net/img/common/icon/202106d/";
+
+        // 新增：和风天气代码到 Font Awesome 图标的映射
+        const weatherIconMap = {
+            // 晴
+            '100': 'fas fa-sun',
+            // 多云
+            '101': 'fas fa-cloud-sun',
+            '102': 'fas fa-cloud-sun',
+            '103': 'fas fa-cloud-sun',
+            // 阴
+            '104': 'fas fa-cloud',
+            // 小雨
+            '300': 'fas fa-cloud-rain',
+            '301': 'fas fa-cloud-showers-light',
+            '302': 'fas fa-cloud-showers-heavy',
+            // 中雨
+            '303': 'fas fa-cloud-showers-heavy',
+            '304': 'fas fa-cloud-showers-heavy',
+            // 大雨
+            '305': 'fas fa-cloud-burst',
+            '306': 'fas fa-cloud-burst',
+            '307': 'fas fa-cloud-burst',
+            // 暴雨
+            '308': 'fas fa-cloud-pouring',
+            '309': 'fas fa-cloud-pouring',
+            '310': 'fas fa-cloud-pouring',
+            // 雪
+            '400': 'fas fa-snowflake',
+            '401': 'fas fa-snowflake',
+            '402': 'fas fa-snowflake',
+            '403': 'fas fa-snowflake',
+            '404': 'fas fa-snowflake',
+            '405': 'fas fa-snowflake',
+            '406': 'fas fa-snowflake',
+            '407': 'fas fa-snowflake',
+            // 雷阵雨
+            '309': 'fas fa-bolt',
+            '311': 'fas fa-bolt',
+            '312': 'fas fa-bolt',
+            '313': 'fas fa-bolt',
+            // 雾/霾
+            '500': 'fas fa-smog',
+            '501': 'fas fa-smog',
+            '502': 'fas fa-smog',
+            '503': 'fas fa-smog',
+            '504': 'fas fa-smog',
+            '507': 'fas fa-smog',
+            '508': 'fas fa-smog',
+            '509': 'fas fa-wind',
+            '510': 'fas fa-wind',
+            '511': 'fas fa-wind',
+            '512': 'fas fa-wind',
+            // 沙尘
+            '513': 'fas fa-dust',
+            '514': 'fas fa-dust',
+            '515': 'fas fa-dust',
+            // 默认
+            'default': 'fas fa-cloud-sun'
+        };
 
         // 风力等级对应文字
         const windScaleMap = [
@@ -971,7 +1026,7 @@
             }
         }
 
-        // 新增：生成天气提示的核心函数
+        // 生成天气提示的核心函数
         function generateWeatherTips(nowData, hourlyData, dailyData) {
             const tips = [];
             const currentTemp = parseInt(nowData.temp);
@@ -1214,7 +1269,7 @@
                 const hourlyData = await hourlyRes.json();
                 if (hourlyData.code === '200') {
                     updateHourlyChart(hourlyData.hourly);
-                    // 新增：生成天气提示
+                    // 生成天气提示
                     generateWeatherTips(weatherData.now, hourlyData.hourly, forecastData.daily);
                 }
 
@@ -1240,10 +1295,10 @@
                 updateTime.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             }
 
-            // 恢复图片图标的链接拼接逻辑
+            // 修改：更新 Font Awesome 天气图标
             currentTemp.textContent = `${nowData.temp}℃`;
-            currentIcon.src = `${ICON_BASE_URL}${nowData.icon}.png`;
-            currentIcon.alt = nowData.text;
+            const iconClass = weatherIconMap[nowData.icon] || weatherIconMap['default'];
+            currentIcon.className = `weather-icon ${iconClass}`;
 
             // 更新详细信息
             precip.textContent = `${nowData.precip || 0}mm`;
@@ -1268,9 +1323,9 @@
                 const dateParts = dayData.fxDate.split('-');
                 forecastEl.children[1].textContent = `${dateParts[1]}/${dateParts[2]}`;
                 
-                // 恢复图片图标的链接拼接逻辑
-                forecastEl.children[2].src = `${ICON_BASE_URL}${dayData.iconDay}.png`;
-                forecastEl.children[2].alt = dayData.textDay;
+                // 修改：更新 Font Awesome 预报图标
+                const iconClass = weatherIconMap[dayData.iconDay] || weatherIconMap['default'];
+                forecastEl.children[2].className = `forecast-icon ${iconClass}`;
                 
                 // 温度区间
                 forecastEl.children[3].textContent = `${dayData.tempMin}~${dayData.tempMax}℃`;
