@@ -11,10 +11,17 @@
             padding: 0;
             box-sizing: border-box;
             font-family: "Microsoft Yahei", Arial, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
+        
+        /* 日夜模式基础样式 */
         body {
             background-color: #f5f5f5;
             padding-bottom: 40px;
+        }
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
         }
 
         /* 容器宽度统一 */
@@ -23,11 +30,15 @@
             margin: 0 auto;
         }
 
-        /* 头部区域（LOGO + 搜索框） */
+        /* 头部区域（LOGO + 搜索框 + 日夜模式切换） */
         .header {
             background-color: #fff;
             padding: 10px 0;
             border-bottom: 1px solid #e5e5e5;
+        }
+        body.dark-mode .header {
+            background-color: #2d2d2d;
+            border-bottom: 1px solid #444;
         }
         .header-wrap {
             display: flex;
@@ -48,9 +59,15 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
+        body.dark-mode .logo-container {
+            color: #4da6ff;
+        }
         .logo-container:hover {
             color: #0066cc;
             transform: scale(1.02);
+        }
+        body.dark-mode .logo-container:hover {
+            color: #66b3ff;
         }
         .logo-container i {
             font-size: 36px;
@@ -68,6 +85,9 @@
         .search-container:hover {
             box-shadow: 0 0 8px rgba(0, 82, 155, 0.2);
         }
+        body.dark-mode .search-container:hover {
+            box-shadow: 0 0 8px rgba(77, 166, 255, 0.2);
+        }
         #cityInput {
             flex: 1;
             height: 35px;
@@ -77,9 +97,19 @@
             outline: none;
             font-size: 14px;
             transition: border-color 0.3s ease;
+            background-color: #fff;
+            color: #333;
+        }
+        body.dark-mode #cityInput {
+            background-color: #333;
+            border-color: #555;
+            color: #e0e0e0;
         }
         #cityInput:focus {
             border-color: #00529b;
+        }
+        body.dark-mode #cityInput:focus {
+            border-color: #4da6ff;
         }
         #searchBtn {
             height: 35px;
@@ -92,9 +122,57 @@
             font-size: 14px;
             transition: all 0.3s ease;
         }
+        body.dark-mode #searchBtn {
+            background-color: #0066cc;
+        }
         #searchBtn:hover {
             background-color: #0066cc;
             box-shadow: 0 2px 6px rgba(0, 82, 155, 0.3);
+        }
+        body.dark-mode #searchBtn:hover {
+            background-color: #1a75ff;
+            box-shadow: 0 2px 6px rgba(77, 166, 255, 0.3);
+        }
+
+        /* 日夜模式切换按钮 */
+        .theme-toggle {
+            width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        body.dark-mode .toggle-switch {
+            background-color: #4da6ff;
+        }
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        body.dark-mode .toggle-slider {
+            transform: translateX(26px);
+        }
+        .theme-text {
+            font-size: 14px;
+            color: #666;
+        }
+        body.dark-mode .theme-text {
+            color: #ccc;
         }
 
         /* 导航栏区域 */
@@ -102,6 +180,9 @@
             background-color: #00529b;
             height: 45px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        body.dark-mode .nav-bar {
+            background-color: #004080;
         }
         .nav-wrap {
             display: flex;
@@ -133,6 +214,9 @@
         .nav-item:hover {
             background-color: #0066cc;
         }
+        body.dark-mode .nav-item:hover {
+            background-color: #0073e6;
+        }
         .nav-item:hover::after {
             width: 100%;
         }
@@ -149,9 +233,16 @@
             transition: all 0.3s ease;
             overflow: hidden;
         }
+        body.dark-mode .weather-main {
+            background-color: #004a80;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
         .weather-main:hover {
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
             transform: translateY(-2px);
+        }
+        body.dark-mode .weather-main:hover {
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
         }
 
         /* 当前天气容器 */
@@ -166,6 +257,9 @@
         }
         .current-weather-container:hover {
             background-color: #0a64aa;
+        }
+        body.dark-mode .current-weather-container:hover {
+            background-color: #005599;
         }
         .city-time-container {
             height: 40px;
@@ -195,13 +289,13 @@
             background-color: rgba(255, 255, 255, 0.1);
             transform: scale(1.03);
         }
-        /* 天气图标字体样式调整 */
-        .temp-container .qi-icon {
-            font-size: 50px;
+        /* 恢复图片图标的样式 */
+        .temp-container img {
+            width: 50px;
+            height: 50px;
             transition: all 0.3s ease;
-            color: #fff;
         }
-        .temp-container:hover .qi-icon {
+        .temp-container:hover img {
             transform: rotate(5deg);
         }
         .temp-value {
@@ -233,6 +327,10 @@
             transform: translateY(-3px);
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
+        body.dark-mode .detail-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+        }
         .detail-item span:first-child {
             font-size: 14px;
             font-weight: bold;
@@ -263,6 +361,9 @@
             cursor: pointer;
             border-right: 1px solid rgba(255, 255, 255, 0.1);
         }
+        body.dark-mode .forecast-day-container {
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
         .forecast-day-container:last-child {
             border-right: none;
         }
@@ -272,13 +373,16 @@
             z-index: 10;
             border-radius: 8px;
         }
-        /* 预报图标字体样式 */
-        .forecast-day-container .qi-icon {
-            font-size: 40px;
-            transition: all 0.3s ease;
-            color: #fff;
+        body.dark-mode .forecast-day-container:hover {
+            background-color: rgba(255, 255, 255, 0.05);
         }
-        .forecast-day-container:hover .qi-icon {
+        /* 恢复预报图片图标的样式 */
+        .forecast-day-container img {
+            width: 40px;
+            height: 40px;
+            transition: all 0.3s ease;
+        }
+        .forecast-day-container:hover img {
             transform: scale(1.2);
         }
         .forecast-date {
@@ -298,16 +402,20 @@
             color: #e0e0e0;
         }
 
-        /* 底部留言框样式 */
-        .message-section {
+        /* 新增：天气提示模块 */
+        .weather-tips-section {
             width: 1200px;
-            margin: 30px auto 0;
+            margin: 20px auto 0;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 20px;
         }
-        .message-title {
+        body.dark-mode .weather-tips-section {
+            background-color: #2d2d2d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .tips-title {
             font-size: 18px;
             color: #00529b;
             font-weight: bold;
@@ -315,27 +423,121 @@
             border-bottom: 1px solid #e5e5e5;
             padding-bottom: 10px;
         }
+        body.dark-mode .tips-title {
+            color: #4da6ff;
+            border-bottom: 1px solid #444;
+        }
+        .tips-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .tip-item {
+            padding: 10px 18px;
+            background-color: #e8f4fc;
+            border-radius: 20px;
+            font-size: 15px;
+            color: #00529b;
+            border: 1px solid #d1e7f5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        body.dark-mode .tip-item {
+            background-color: #163a5c;
+            color: #4da6ff;
+            border: 1px solid #24507a;
+        }
+        .tip-item i {
+            font-size: 16px;
+        }
+
+        /* 24小时气温折线图模块 */
+        .hourly-chart-section {
+            width: 1200px;
+            margin: 20px auto 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        body.dark-mode .hourly-chart-section {
+            background-color: #2d2d2d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .chart-title {
+            font-size: 18px;
+            color: #00529b;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 10px;
+        }
+        body.dark-mode .chart-title {
+            color: #4da6ff;
+            border-bottom: 1px solid #444;
+        }
+        #hourlyTempChart {
+            width: 100%;
+            height: 300px;
+        }
+
+        /* 缩小版留言板模块 */
+        .message-section {
+            width: 1200px;
+            margin: 20px auto 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        body.dark-mode .message-section {
+            background-color: #2d2d2d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .message-title {
+            font-size: 16px;
+            color: #00529b;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 8px;
+        }
+        body.dark-mode .message-title {
+            color: #4da6ff;
+            border-bottom: 1px solid #444;
+        }
         .message-input-wrap {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 10px;
         }
         #messageInput {
             flex: 1;
-            padding: 12px 15px;
+            padding: 8px 12px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 14px;
             resize: none;
-            height: 80px;
+            height: 60px;
             transition: border-color 0.3s ease;
+            background-color: #fff;
+            color: #333;
+        }
+        body.dark-mode #messageInput {
+            background-color: #333;
+            border-color: #555;
+            color: #e0e0e0;
         }
         #messageInput:focus {
             border-color: #00529b;
             outline: none;
         }
+        body.dark-mode #messageInput:focus {
+            border-color: #4da6ff;
+        }
         #submitMessage {
-            padding: 0 20px;
+            padding: 0 15px;
             background-color: #00529b;
             color: #fff;
             border: none;
@@ -344,37 +546,59 @@
             font-size: 14px;
             transition: all 0.3s ease;
         }
+        body.dark-mode #submitMessage {
+            background-color: #0066cc;
+        }
         #submitMessage:hover {
             background-color: #0066cc;
             box-shadow: 0 2px 6px rgba(0, 82, 155, 0.3);
         }
+        body.dark-mode #submitMessage:hover {
+            background-color: #1a75ff;
+            box-shadow: 0 2px 6px rgba(77, 166, 255, 0.3);
+        }
         .message-list {
-            max-height: 300px;
+            max-height: 200px;
             overflow-y: auto;
             border-top: 1px solid #f5f5f5;
-            padding-top: 15px;
+            padding-top: 10px;
+        }
+        body.dark-mode .message-list {
+            border-top: 1px solid #444;
         }
         .message-item {
-            padding: 10px 15px;
+            padding: 8px 12px;
             background-color: #f9f9f9;
             border-radius: 4px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+        }
+        body.dark-mode .message-item {
+            background-color: #333;
         }
         .message-item .message-time {
             font-size: 12px;
             color: #999;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
+        }
+        body.dark-mode .message-item .message-time {
+            color: #bbb;
         }
         .message-item .message-content {
             font-size: 14px;
             color: #333;
             line-height: 1.5;
         }
+        body.dark-mode .message-item .message-content {
+            color: #e0e0e0;
+        }
         .empty-message {
             text-align: center;
             color: #999;
             font-size: 14px;
-            padding: 20px 0;
+            padding: 15px 0;
+        }
+        body.dark-mode .empty-message {
+            color: #bbb;
         }
 
         /* 底部信息模块样式 */
@@ -385,12 +609,19 @@
             padding: 15px 0;
             margin-top: 30px;
         }
+        body.dark-mode .footer-info {
+            background-color: #2d2d2d;
+            border-top: 1px solid #444;
+        }
         .footer-wrap {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 14px;
             color: #666;
+        }
+        body.dark-mode .footer-wrap {
+            color: #ccc;
         }
         .footer-item {
             margin: 0 10px;
@@ -399,17 +630,22 @@
             color: #00529b;
             text-decoration: none;
         }
+        body.dark-mode .footer-item a {
+            color: #4da6ff;
+        }
         .footer-item a:hover {
             text-decoration: underline;
         }
     </style>
-    <!-- 替换为和风天气图标字体库 -->
+    <!-- 保留你要求引入的和风天气图标CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/qweather-icons@1.3.0/font/qweather-icons.css">
     <!-- 保留Font Awesome用于LOGO图标 -->
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入ECharts用于绘制折线图 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
 </head>
 <body>
-    <!-- 头部：LOGO + 搜索框 -->
+    <!-- 头部：LOGO + 搜索框 + 日夜模式切换 -->
     <div class="header">
         <div class="container header-wrap">
             <div class="logo-container">
@@ -419,6 +655,13 @@
             <div class="search-container">
                 <input type="text" id="cityInput" placeholder="请输入城市名称">
                 <button id="searchBtn">查询</button>
+            </div>
+            <!-- 日夜模式切换按钮 -->
+            <div class="theme-toggle">
+                <div class="toggle-switch" id="themeSwitch">
+                    <div class="toggle-slider"></div>
+                </div>
+                <span class="theme-text" id="themeText">日间模式</span>
             </div>
         </div>
     </div>
@@ -447,8 +690,8 @@
                     <span id="updateTime">2025-01-01 12:00</span>
                 </div>
                 <div class="temp-container">
-                    <!-- 替换img为图标字体 -->
-                    <i id="currentIcon" class="qi-100 qi-icon" aria-label="天气图标"></i>
+                    <!-- 改回img标签，恢复彩色图标 -->
+                    <img id="currentIcon" src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="天气图标">
                     <span class="temp-value" id="currentTemp">25℃</span>
                 </div>
                 <div class="details-container">
@@ -476,8 +719,8 @@
                 <div class="forecast-day-container" id="forecast1">
                     <span>今天</span>
                     <span class="forecast-date">12/12</span>
-                    <!-- 替换img为图标字体 -->
-                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
+                    <!-- 改回img标签，恢复彩色图标 -->
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
                     <span class="forecast-temp">25℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">微风</span>
@@ -485,7 +728,7 @@
                 <div class="forecast-day-container" id="forecast2">
                     <span>明天</span>
                     <span class="forecast-date">12/13</span>
-                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
                     <span class="forecast-temp">24℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">软风</span>
@@ -493,7 +736,7 @@
                 <div class="forecast-day-container" id="forecast3">
                     <span>后天</span>
                     <span class="forecast-date">12/14</span>
-                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
                     <span class="forecast-temp">26℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">轻风</span>
@@ -501,7 +744,7 @@
                 <div class="forecast-day-container" id="forecast4">
                     <span>周五</span>
                     <span class="forecast-date">12/15</span>
-                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
                     <span class="forecast-temp">23℃</span>
                     <span class="forecast-text">阴</span>
                     <span class="forecast-wind-scale">和风</span>
@@ -509,7 +752,7 @@
                 <div class="forecast-day-container" id="forecast5">
                     <span>周六</span>
                     <span class="forecast-date">12/16</span>
-                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
                     <span class="forecast-temp">22℃</span>
                     <span class="forecast-text">小雨</span>
                     <span class="forecast-wind-scale">轻劲风</span>
@@ -517,7 +760,7 @@
                 <div class="forecast-day-container" id="forecast6">
                     <span>周日</span>
                     <span class="forecast-date">12/17</span>
-                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
                     <span class="forecast-temp">24℃</span>
                     <span class="forecast-text">多云</span>
                     <span class="forecast-wind-scale">强风</span>
@@ -525,7 +768,7 @@
                 <div class="forecast-day-container" id="forecast7">
                     <span>周一</span>
                     <span class="forecast-date">12/18</span>
-                    <i class="qi-100 qi-icon" aria-label="预报图标"></i>
+                    <img src="https://a.hecdn.net/img/common/icon/202106d/100.png" alt="预报图标">
                     <span class="forecast-temp">25℃</span>
                     <span class="forecast-text">晴</span>
                     <span class="forecast-wind-scale">疾风</span>
@@ -534,7 +777,21 @@
         </div>
     </div>
 
-    <!-- 底部留言框区域 -->
+    <!-- 新增：天气提示模块 -->
+    <div class="weather-tips-section">
+        <div class="tips-title">生活提示</div>
+        <div class="tips-list" id="tipsList">
+            <!-- 提示内容由JS动态生成 -->
+        </div>
+    </div>
+
+    <!-- 24小时气温折线图模块 -->
+    <div class="hourly-chart-section">
+        <div class="chart-title">24小时气温变化</div>
+        <div id="hourlyTempChart"></div>
+    </div>
+
+    <!-- 缩小版留言框区域 -->
     <div class="message-section">
         <div class="message-title">留言反馈</div>
         <div class="message-input-wrap">
@@ -562,6 +819,9 @@
         const WEATHER_BASE_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/now";
         const GEO_BASE_URL = "https://p82mtefeqv.re.qweatherapi.com/geo/v2/city/lookup";
         const FORECAST_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/7d";
+        const HOURLY_URL = "https://p82mtefeqv.re.qweatherapi.com/v7/weather/24h"; // 24小时预报接口
+        // 恢复彩色图标图片的基础链接
+        const ICON_BASE_URL = "https://a.hecdn.net/img/common/icon/202106d/";
 
         // 风力等级对应文字
         const windScaleMap = [
@@ -583,10 +843,241 @@
         const humidity = document.getElementById('humidity');
         const pressure = document.getElementById('pressure');
         const apiCallCountEl = document.getElementById('apiCallCount');
+        const tipsList = document.getElementById('tipsList'); // 提示列表DOM
         let apiCallCount = 0;
+
+        // 日夜模式相关元素
+        const themeSwitch = document.getElementById('themeSwitch');
+        const themeText = document.getElementById('themeText');
+        const body = document.body;
+
+        // 初始化24小时气温图表
+        let hourlyChart;
+        function initHourlyChart() {
+            const chartDom = document.getElementById('hourlyTempChart');
+            hourlyChart = echarts.init(chartDom);
+            
+            // 根据当前主题设置图表样式
+            const isDark = body.classList.contains('dark-mode');
+            const textColor = isDark ? '#e0e0e0' : '#333';
+            const gridColor = isDark ? '#444' : '#e5e5e5';
+            
+            const option = {
+                backgroundColor: 'transparent',
+                tooltip: {
+                    trigger: 'axis',
+                    textStyle: { color: textColor },
+                    formatter: '{b} <br/>气温: {c}℃'
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    axisLine: { lineStyle: { color: gridColor } },
+                    axisLabel: { color: textColor },
+                    data: []
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: { lineStyle: { color: gridColor } },
+                    axisLabel: { 
+                        color: textColor,
+                        formatter: '{value}℃'
+                    },
+                    splitLine: { lineStyle: { color: gridColor, type: 'dashed' } }
+                },
+                series: [
+                    {
+                        name: '气温',
+                        type: 'line',
+                        data: [],
+                        smooth: true,
+                        lineStyle: {
+                            width: 3,
+                            color: isDark ? '#4da6ff' : '#00529b'
+                        },
+                        itemStyle: {
+                            color: isDark ? '#4da6ff' : '#00529b'
+                        },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: isDark ? 'rgba(77, 166, 255, 0.3)' : 'rgba(0, 82, 155, 0.3)' },
+                                { offset: 1, color: isDark ? 'rgba(77, 166, 255, 0)' : 'rgba(0, 82, 155, 0)' }
+                            ])
+                        },
+                        symbol: 'circle',
+                        symbolSize: 6
+                    }
+                ]
+            };
+            hourlyChart.setOption(option);
+        }
+
+        // 更新24小时气温图表数据
+        function updateHourlyChart(hourlyData) {
+            if (!hourlyChart) initHourlyChart();
+            
+            const hours = hourlyData.map(item => {
+                const time = item.fxTime.split('T')[1].substring(0, 5); // 提取 HH:MM
+                return time;
+            });
+            const temps = hourlyData.map(item => parseInt(item.temp));
+            
+            // 根据当前主题更新图表样式
+            const isDark = body.classList.contains('dark-mode');
+            const lineColor = isDark ? '#4da6ff' : '#00529b';
+            
+            const option = {
+                xAxis: { data: hours },
+                series: [
+                    {
+                        data: temps,
+                        lineStyle: { color: lineColor },
+                        itemStyle: { color: lineColor },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: isDark ? 'rgba(77, 166, 255, 0.3)' : 'rgba(0, 82, 155, 0.3)' },
+                                { offset: 1, color: isDark ? 'rgba(77, 166, 255, 0)' : 'rgba(0, 82, 155, 0)' }
+                            ])
+                        }
+                    }
+                ]
+            };
+            hourlyChart.setOption(option);
+        }
+
+        // 切换日夜模式
+        function toggleTheme() {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            themeText.textContent = isDark ? '夜间模式' : '日间模式';
+            
+            // 保存主题偏好到本地存储
+            localStorage.setItem('weatherTheme', isDark ? 'dark' : 'light');
+            
+            // 更新图表样式
+            if (hourlyChart) {
+                initHourlyChart();
+                // 如果已有数据，重新渲染
+                if (hourlyChart.getOption().xAxis[0].data.length > 0) {
+                    const option = hourlyChart.getOption();
+                    hourlyChart.setOption(option);
+                }
+            }
+        }
+
+        // 新增：生成天气提示的核心函数
+        function generateWeatherTips(nowData, hourlyData, dailyData) {
+            const tips = [];
+            const currentTemp = parseInt(nowData.temp);
+            const todayTempMin = parseInt(dailyData[0].tempMin);
+            const todayTempMax = parseInt(dailyData[0].tempMax);
+            const tempDiff = todayTempMax - todayTempMin; // 昼夜温差
+
+            // 1. 降水相关提示
+            if (parseFloat(nowData.precip) > 0) {
+                tips.push({
+                    text: "当前正在降水，记得携带雨具",
+                    icon: "fas fa-umbrella"
+                });
+            } else {
+                // 检查未来3小时是否有降水
+                const next3Hours = hourlyData.slice(0, 3);
+                const hasRain = next3Hours.some(item => parseFloat(item.precip) > 0);
+                if (hasRain) {
+                    tips.push({
+                        text: "三小时之内会下雨，建议携带雨具",
+                        icon: "fas fa-cloud-showers-heavy"
+                    });
+                }
+            }
+
+            // 2. 温差相关提示
+            if (tempDiff >= 10) {
+                tips.push({
+                    text: "白天温度适中，但早晚偏凉，注意增减衣物",
+                    icon: "fas fa-temperature-half"
+                });
+            } else if (tempDiff >= 5) {
+                tips.push({
+                    text: "昼夜温差较大，建议准备薄外套",
+                    icon: "fas fa-shirt"
+                });
+            }
+
+            // 3. 温度相关提示
+            if (currentTemp <= 10) {
+                tips.push({
+                    text: "气温较低，注意保暖，携带厚外套",
+                    icon: "fas fa-snowflake"
+                });
+            } else if (currentTemp <= 18) {
+                tips.push({
+                    text: "气温微凉，建议携带薄外套",
+                    icon: "fas fa-jacket"
+                });
+            } else if (currentTemp >= 30) {
+                tips.push({
+                    text: "气温较高，注意防暑降温",
+                    icon: "fas fa-temperature-high"
+                });
+            }
+
+            // 4. 天气状况相关提示
+            if (nowData.text === "晴" && todayTempMax >= 28) {
+                tips.push({
+                    text: "今日晴天且气温较高，注意防晒",
+                    icon: "fas fa-sun"
+                });
+            } else if (nowData.text === "阴" || nowData.text === "多云") {
+                tips.push({
+                    text: "今日多云转阴，体感舒适",
+                    icon: "fas fa-cloud"
+                });
+            }
+
+            // 渲染提示到页面
+            tipsList.innerHTML = '';
+            if (tips.length === 0) {
+                tipsList.innerHTML = `
+                    <div class="tip-item">
+                        <i class="fas fa-smile"></i>
+                        <span>今日天气良好，适宜出行</span>
+                    </div>
+                `;
+                return;
+            }
+            
+            tips.forEach(tip => {
+                const tipItem = document.createElement('div');
+                tipItem.className = 'tip-item';
+                tipItem.innerHTML = `
+                    <i class="${tip.icon}"></i>
+                    <span>${tip.text}</span>
+                `;
+                tipsList.appendChild(tipItem);
+            });
+        }
 
         // 导航栏点击事件绑定
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化图表
+            initHourlyChart();
+            // 读取本地存储的主题偏好
+            const savedTheme = localStorage.getItem('weatherTheme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeText.textContent = '夜间模式';
+            }
+            
+            // 绑定主题切换事件
+            themeSwitch.addEventListener('click', toggleTheme);
+
             document.getElementById('nav-home').addEventListener('click', function() {
                 window.location.reload();
             });
@@ -655,6 +1146,11 @@
                     submitMessage.click();
                 }
             });
+            
+            // 监听窗口大小变化，重新调整图表
+            window.addEventListener('resize', function() {
+                if (hourlyChart) hourlyChart.resize();
+            });
         });
 
         // 页面加载默认查询北京天气
@@ -713,6 +1209,15 @@
                 }
                 updateForecast(forecastData.daily);
 
+                // 获取24小时预报
+                const hourlyRes = await fetch(`${HOURLY_URL}?key=${WEATHER_API_KEY}&location=${locationId}`);
+                const hourlyData = await hourlyRes.json();
+                if (hourlyData.code === '200') {
+                    updateHourlyChart(hourlyData.hourly);
+                    // 新增：生成天气提示
+                    generateWeatherTips(weatherData.now, hourlyData.hourly, forecastData.daily);
+                }
+
             } catch (error) {
                 console.error('请求天气数据失败：', error);
                 alert('网络错误，请稍后重试');
@@ -735,10 +1240,10 @@
                 updateTime.textContent = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             }
 
-            // 更新温度和图标（替换为字体类名）
+            // 恢复图片图标的链接拼接逻辑
             currentTemp.textContent = `${nowData.temp}℃`;
-            currentIcon.className = `qi-${nowData.icon} qi-icon`;
-            currentIcon.ariaLabel = nowData.text;
+            currentIcon.src = `${ICON_BASE_URL}${nowData.icon}.png`;
+            currentIcon.alt = nowData.text;
 
             // 更新详细信息
             precip.textContent = `${nowData.precip || 0}mm`;
@@ -763,9 +1268,9 @@
                 const dateParts = dayData.fxDate.split('-');
                 forecastEl.children[1].textContent = `${dateParts[1]}/${dateParts[2]}`;
                 
-                // 更新预报图标（替换为字体类名）
-                forecastEl.children[2].className = `qi-${dayData.iconDay} qi-icon`;
-                forecastEl.children[2].ariaLabel = dayData.textDay;
+                // 恢复图片图标的链接拼接逻辑
+                forecastEl.children[2].src = `${ICON_BASE_URL}${dayData.iconDay}.png`;
+                forecastEl.children[2].alt = dayData.textDay;
                 
                 // 温度区间
                 forecastEl.children[3].textContent = `${dayData.tempMin}~${dayData.tempMax}℃`;
